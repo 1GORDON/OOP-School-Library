@@ -1,19 +1,20 @@
 require_relative 'person'
 require_relative 'student'
-require_relative 'book'
-require_relative 'classroom'
 require_relative 'teacher'
 require_relative 'rental'
+require_relative 'book'
+require_relative 'classroom'
 
 class App
   def initialize
     @people = []
     @books = []
     @rentals = []
+    @class = Classroom.new('Grade 9')
   end
 
-  def start
-    puts 'Welcome to our School Library!'
+  def run
+    puts 'Welcome to School Library!'
     loop do
       menu
       option = gets.chomp
@@ -26,7 +27,7 @@ class App
 
   def menu
     puts
-    puts 'Please choose an option by entering a number:'
+    puts 'Please choose an option by entering a number'
     puts '1 - List all books'
     puts '2 - List all people'
     puts '3 - Create a person'
@@ -51,25 +52,25 @@ class App
     when '6'
       list_rentals_by_person_id
     else
-      puts 'Please enter a number between 1 and 7.'
+      puts 'Please enter a number between 1 and 7'
     end
   end
 
   def list_all_books
-    puts 'No books in the database! Please add a book.' if @books.empty?
+    puts 'There are no books yet! Kindly add books.' if @books.empty?
 
     @books.each { |book| puts "Title: #{book.title}, Author: #{book.author}" }
     sleep 0.75
   end
 
   def list_all_people
-    puts 'No people in the database! Please add a person.' if @people.empty?
+    puts 'There are no people yet! Kindly add a student or teacher.' if @people.empty?
     @people.map { |person| puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}" }
     sleep 0.75
   end
 
   def create_person
-    print 'Would you like to create a student(1) or a teacher(2) [Please input a number]: '
+    print 'Do you want to create a student (1) or teacher (2) [Input a number]: '
     option = gets.chomp
 
     case option
@@ -78,7 +79,7 @@ class App
     when '2'
       create_teacher
     else
-      puts 'Invalid input. Please input 1 or 2'
+      puts 'Invalid input. Kindly type 1 or 2'
     end
   end
 
@@ -109,7 +110,7 @@ class App
     print 'Specialization: '
     specialization = gets.chomp
 
-    teacher = Teacher.new(age, specialization, name)
+    teacher = Teacher.new(specialization, age, name)
     @people << teacher
 
     puts 'Teacher created successfully'
@@ -147,7 +148,7 @@ def create_rental
   print 'Date: '
   date = gets.chomp.to_s
 
-  rental = Rental.new(date, @books[book_id], @people[person_id])
+  rental = Rental.new(date, @people[person_id], @books[book_id])
   @rentals << rental
 
   puts 'Rental created successfully'
@@ -167,6 +168,6 @@ end
 
 def main
   app = App.new
-  app.start
+  app.run
 end
 main
