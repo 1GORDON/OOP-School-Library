@@ -1,4 +1,3 @@
-# rubocop: disable Style/OptionalBooleanParameter
 require_relative 'corrector'
 require_relative 'rental'
 class Person
@@ -26,14 +25,12 @@ class Person
     @name = @corrector.correct_name(@name)
   end
 
-  def add_rentals(date, book)
+  def add_rental(date, book)
     Rental.new(date, book, self)
   end
 
   private :of_age?
 end
-
-# rubocop: enable Style/OptionalBooleanParameter
 
 person = Person.new(100, 'gordontinyefuza')
 person.validate_name
